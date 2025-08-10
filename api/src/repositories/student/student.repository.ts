@@ -2,7 +2,7 @@ import { Student, PrismaClient } from '@prisma/client';
 import { BaseRepository, IBaseRepository } from '../../core/repository';
 
 export interface IStudentRepository extends IBaseRepository<Student> {
-  findByRA(ra: string): Promise<Student | null>;
+  findByRAOrCPF(ra: string, cpf: string): Promise<Student | null>;
 }
 
 export class StudentRepository extends BaseRepository<Student> implements IStudentRepository {
@@ -13,7 +13,11 @@ export class StudentRepository extends BaseRepository<Student> implements IStude
     this.model = prismaClient.student;
   }
 
-  async findByRA(ra: string): Promise<Student | null> {
-    return this.model.findUnique({ where: { ra } });
+  async findByRAOrCPF(ra: string, cpf: string): Promise<Student | null> {
+    return this.model.findFirst({
+      where: {
+        OR: [{ ra }, { cpf }],
+      },
+    });
   }
 }

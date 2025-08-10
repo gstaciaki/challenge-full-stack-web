@@ -21,9 +21,9 @@ export class CreateStudentUseCase extends AbstractUseCase<Input, FailOutput, Suc
   }
 
   protected async execute(input: Input): Promise<Either<FailOutput, SuccessOutput>> {
-    const existingStudent = await this.studentRepo.findByRA(input.ra);
+    const existingStudent = await this.studentRepo.findByRAOrCPF(input.ra, input.cpf);
     if (existingStudent) {
-      return wrong(new AlreadyExistsError('aluno', 'RA'));
+      return wrong(new AlreadyExistsError('aluno', 'RA ou CPF'));
     }
 
     const student = new Student({ ...input });
