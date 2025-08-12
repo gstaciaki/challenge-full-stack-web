@@ -18,7 +18,7 @@ describe('ShowStudentUseCase', () => {
       findById: jest.fn(),
       update: jest.fn(),
       findByRAOrCPF: jest.fn(),
-    } as any;
+    };
 
     useCase = new ShowStudentUseCase(studentRepo);
   });

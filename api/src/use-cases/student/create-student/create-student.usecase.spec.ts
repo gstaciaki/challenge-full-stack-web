@@ -18,7 +18,7 @@ describe('CreateStudentUseCase', () => {
       findWhere: jest.fn(),
       findById: jest.fn(),
       update: jest.fn(),
-    } as any;
+    };
 
     useCase = new CreateStudentUseCase(studentRepo);
   });

@@ -1,7 +1,7 @@
 import { UpdateStudentUseCase } from './update-student.usecase';
 import { IStudentRepository } from '@src/repositories/student/student.repository';
 import { genStudent } from 'test/prefab/student';
-import { AlreadyExistsError, NotFoundError } from '@src/errors/generic.errors';
+import { NotFoundError } from '@src/errors/generic.errors';
 import { InputValidationError } from '@src/errors/input-validation.error';
 import { Student } from '@src/entities/student.entity';
 
@@ -16,10 +16,9 @@ describe('UpdateStudentUseCase', () => {
       findAll: jest.fn(),
       findWhere: jest.fn(),
       findById: jest.fn(),
-      findByEmail: jest.fn(),
       update: jest.fn(),
       findByRAOrCPF: jest.fn(),
-    } as any;
+    };
 
     useCase = new UpdateStudentUseCase(studentRepo);
   });
