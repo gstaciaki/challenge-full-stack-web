@@ -2,7 +2,7 @@
   <PageHeader :currentPage="title" :pages="utils.pageList">
     <template #actions>
       <v-container v-if="showStudentForm">
-        <StudentForm @cancel="onCancelForm" />
+        <StudentForm :student="studentBeingEdited" @cancel="onCancelForm" />
       </v-container>
       <v-container v-else>
         <v-row>
@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Student, UpdateStudentData } from "@/composables/useApiClient";
 import { useUtils } from "@/composables/useUtils";
 import { useApiStore } from "@/stores/api";
 import { computed, onMounted, ref } from "vue";
@@ -39,8 +40,14 @@ const utils = useUtils();
 const students = computed(() => api.students);
 const showStudentForm = ref(false);
 
+const studentBeingEdited = ref<Student | null>(null);
+
 const title = computed(() =>
-  showStudentForm.value ? "Cadastrar Aluno" : "Consulta de Alunos"
+  showStudentForm.value
+    ? studentBeingEdited.value
+      ? "Editar Aluno"
+      : "Cadastrar Aluno"
+    : "Consulta de Alunos"
 );
 
 function onSearch(query: string) {
@@ -48,18 +55,22 @@ function onSearch(query: string) {
 }
 
 function onCreate() {
+  studentBeingEdited.value = null;
+  showStudentForm.value = true;
+}
+
+function onEdit(student: Student) {
+  studentBeingEdited.value = student;
   showStudentForm.value = true;
 }
 
 function onCancelForm() {
   showStudentForm.value = false;
+  studentBeingEdited.value = null;
+  api.listStudents();
 }
 
-function onEdit(student: any) {
-  console.log("Editar aluno:", student);
-}
-
-function onDelete(student: any) {
+function onDelete(student: UpdateStudentData) {
   console.log("Excluir aluno:", student);
 }
 

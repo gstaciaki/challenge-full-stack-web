@@ -29,11 +29,17 @@ export type Student = {
   email: string;
 };
 
-export type StudentData = {
+export type CreateStudentData = {
   name: string;
   email: string;
   ra: string;
   cpf: string;
+};
+
+export type UpdateStudentData = {
+  id: string;
+  name: string;
+  email: string;
 };
 
 export const useApiClient = () => {
@@ -41,8 +47,12 @@ export const useApiClient = () => {
     listStudents(name?: string) {
       return apiClient.get("student", { params: { name } });
     },
-    createStudent(data: StudentData) {
+    createStudent(data: CreateStudentData) {
       return apiClient.post("student", data);
+    },
+    updateStudent(data: UpdateStudentData) {
+      const { id, ...body } = data;
+      return apiClient.put(`student/${id}`, body);
     },
   };
 };

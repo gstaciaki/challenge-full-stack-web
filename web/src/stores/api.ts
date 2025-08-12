@@ -2,7 +2,8 @@ import {
   useApiClient,
   type ListResponse,
   type Student,
-  type StudentData,
+  type CreateStudentData,
+  type UpdateStudentData,
 } from "@/composables/useApiClient";
 import { defineStore } from "pinia";
 
@@ -23,8 +24,12 @@ export const useApiStore = defineStore("api", {
       this.students = response.data.data;
       return response.data;
     },
-    async createStudent(data: StudentData): Promise<Student> {
+    async createStudent(data: CreateStudentData): Promise<Student> {
       const response = await apiClient.createStudent(data);
+      return response.data;
+    },
+    async updateStudent(data: UpdateStudentData): Promise<Student> {
+      const response = await apiClient.updateStudent(data);
       return response.data;
     },
   },

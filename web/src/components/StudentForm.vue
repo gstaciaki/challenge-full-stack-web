@@ -31,6 +31,7 @@
                 :rules="[rules.required]"
                 placeholder="Informe o registro acadêmico"
                 required
+                :disabled="isEdit"
               />
             </v-col>
 
@@ -41,6 +42,7 @@
                 :rules="[rules.required, rules.cpf]"
                 placeholder="Informe o número do documento"
                 required
+                :disabled="isEdit"
               />
             </v-col>
           </v-row>
@@ -51,9 +53,26 @@
         <v-btn variant="outlined" color="grey" @click="onCancel"
           >Cancelar</v-btn
         >
-        <v-btn color="primary" :disabled="!valid" @click="onSave">Salvar</v-btn>
+        <v-btn color="primary" :disabled="!valid" @click="confirmSave"
+          >Salvar</v-btn
+        >
       </v-card-actions>
     </v-card>
+
+    <v-dialog v-model="confirmDialog" max-width="400">
+      <v-card>
+        <v-card-title class="text-h6">Confirmar ação</v-card-title>
+        <v-card-text>
+          Você tem certeza que deseja salvar este aluno?
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn text color="grey" @click="confirmDialog = false"
+            >Cancelar</v-btn
+          >
+          <v-btn color="primary" @click="onSave">Confirmar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="errorDialog" max-width="400">
       <v-card>
@@ -68,45 +87,110 @@
 </template>
 
 <script setup lang="ts">
-import type { StudentData } from "@/composables/useApiClient";
+import type {
+  CreateStudentData,
+  Student,
+  UpdateStudentData,
+} from "@/composables/useApiClient";
 import { useApiStore } from "@/stores/api";
-import { ref, reactive } from "vue";
+import { ref, reactive, watch, computed } from "vue";
 
+interface Props {
+  student: Student | null;
+}
+
+const props = defineProps<Props>();
 const emit = defineEmits(["cancel"]);
 
-const form = reactive<StudentData>({
-  name: "",
-  email: "",
-  ra: "",
-  cpf: "",
-});
+const isEdit = computed(() => !!props.student);
+
+const api = useApiStore();
 
 const valid = ref(false);
 const formRef = ref();
 
-const api = useApiStore();
-
 const errorDialog = ref(false);
 const errorMessage = ref("");
 
+const confirmDialog = ref(false);
+
+const form = reactive({
+  name: "",
+  email: "",
+  ra: "",
+  cpf: "",
+  id: "",
+});
+
+watch(
+  () => props.student,
+  (student) => {
+    if (student) {
+      form.id = student.id;
+      form.name = student.name;
+      form.email = student.email;
+      form.ra = student.ra ?? "";
+      form.cpf = student.cpf ?? "";
+    } else {
+      form.id = "";
+      form.name = "";
+      form.email = "";
+      form.ra = "";
+      form.cpf = "";
+    }
+  },
+  { immediate: true }
+);
+
 const rules = Object.freeze({
-  required: (v: string) => !!v || "Campo obrigatório",
+  required: (v: string) => {
+    if (isEdit.value) return true;
+    return !!v || "Campo obrigatório";
+  },
   email: (v: string) => /.+@.+\..+/.test(v) || "E-mail deve ser válido",
-  cpf: (v: string) =>
-    (!!v && v.length === 11 && /^\d+$/.test(v)) || "CPF deve ter 11 números",
+  cpf: (v: string) => {
+    if (isEdit.value) return true;
+    return (
+      (!!v && v.length === 11 && /^\d+$/.test(v)) || "CPF deve ter 11 números"
+    );
+  },
 });
 
 function onCancel() {
-  Object.keys(form).forEach((key) => (form[key as keyof typeof form] = ""));
+  form.id = "";
+  form.name = "";
+  form.email = "";
+  form.ra = "";
+  form.cpf = "";
   formRef.value?.resetValidation();
   emit("cancel");
 }
 
-async function onSave() {
+function confirmSave() {
   if (!formRef.value?.validate()) return;
+  confirmDialog.value = true;
+}
+
+async function onSave() {
+  confirmDialog.value = false;
 
   try {
-    await api.createStudent(form);
+    if (isEdit.value) {
+      const updateData: UpdateStudentData = {
+        id: form.id,
+        name: form.name,
+        email: form.email,
+      };
+      await api.updateStudent(updateData);
+    } else {
+      const createData: CreateStudentData = {
+        name: form.name,
+        email: form.email,
+        ra: form.ra,
+        cpf: form.cpf,
+      };
+      await api.createStudent(createData);
+    }
     onCancel();
   } catch (error: any) {
     errorMessage.value =
