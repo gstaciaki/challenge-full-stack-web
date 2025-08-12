@@ -33,6 +33,10 @@ function cmd {
 # -----------------------------------------------------------------------------
 # Package commands
 # -----------------------------------------------------------------------------
+function api:migrate {
+  dc exec api yarn migrate:dev
+}
+
 function test:api:prepare {
   dc exec api yarn test:prepare "${@}"
 }
