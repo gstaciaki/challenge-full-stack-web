@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const headers = {
   Accept: "application/json",
@@ -9,7 +9,6 @@ const headers = {
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_API_ENDPOINT,
   headers,
-
 });
 
 export type ListResponse<T> = {
@@ -30,10 +29,20 @@ export type Student = {
   email: string;
 };
 
+export type StudentData = {
+  name: string;
+  email: string;
+  ra: string;
+  cpf: string;
+};
+
 export const useApiClient = () => {
   return {
     listStudents(name?: string) {
       return apiClient.get("student", { params: { name } });
+    },
+    createStudent(data: StudentData) {
+      return apiClient.post("student", data);
     },
   };
 };
