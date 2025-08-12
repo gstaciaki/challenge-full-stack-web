@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- <v-img :src="logoSrc" max-width="120" contain class="ml-4" /> -->
-    <v-app-bar app dense flat color="grey-lighten-3">
+    <v-app-bar app color="grey-lighten-3" dense flat>
       <div
         class="pa-4 text-center font-weight-bold"
         style="width: 240px; flex-shrink: 0"
@@ -16,8 +16,8 @@
       </div>
     </v-app-bar>
 
-    <v-navigation-drawer app permanent color="grey-lighten-4" width="240">
-      <v-list nav dense>
+    <v-navigation-drawer app color="grey-lighten-4" permanent width="240">
+      <v-list dense nav>
         <v-list-item
           v-for="(page, index) in pages"
           :key="index"
@@ -39,31 +39,31 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import logoImage from "../assets/logo.png";
+  import { useRouter } from 'vue-router'
+  import logoImage from '../assets/logo.png'
 
-interface Page {
-  label: string;
-  route: string;
-}
+  interface Page {
+    label: string
+    route: string
+  }
 
-interface Props {
-  currentPage?: string;
-  pages?: Page[];
-  logoSrc?: string;
-}
+  interface Props {
+    currentPage?: string
+    pages?: Page[]
+    logoSrc?: string
+  }
 
-withDefaults(defineProps<Props>(), {
-  currentPage: "",
-  pages: () => [],
-  logoSrc: logoImage,
-});
+  withDefaults(defineProps<Props>(), {
+    currentPage: '',
+    pages: () => [],
+    logoSrc: logoImage,
+  })
 
-const router = useRouter();
+  const router = useRouter()
 
-function navigateTo(page: Page) {
-  router.push(page.route);
-}
+  function navigateTo (page: Page) {
+    router.push(page.route)
+  }
 </script>
 
 <style scoped>

@@ -1,10 +1,9 @@
 <template>
-  <PageHeader currentPage="Início" :pages="utils.pageList">
-  </PageHeader>
+  <PageHeader current-page="Início" :pages="utils.pageList" />
 </template>
 
 <script lang="ts" setup>
-import { useUtils } from '@/composables/useUtils';
+  import { useUtils } from '@/composables/useUtils'
 
-  const utils = useUtils();
+  const utils = useUtils()
 </script>
