@@ -92,6 +92,7 @@ import type {
   Student,
   UpdateStudentData,
 } from "@/composables/useApiClient";
+import { useUtils } from "@/composables/useUtils";
 import { useApiStore } from "@/stores/api";
 import { ref, reactive, watch, computed } from "vue";
 
@@ -105,6 +106,7 @@ const emit = defineEmits(["cancel"]);
 const isEdit = computed(() => !!props.student);
 
 const api = useApiStore();
+const utils = useUtils();
 
 const valid = ref(false);
 const formRef = ref();
@@ -150,9 +152,7 @@ const rules = Object.freeze({
   email: (v: string) => /.+@.+\..+/.test(v) || "E-mail deve ser válido",
   cpf: (v: string) => {
     if (isEdit.value) return true;
-    return (
-      (!!v && v.length === 11 && /^\d+$/.test(v)) || "CPF deve ter 11 números"
-    );
+    return utils.isValidCpf(v) || "CPF inválido";
   },
 });
 
