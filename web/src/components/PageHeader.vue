@@ -21,7 +21,7 @@
         <v-list-item
           v-for="(page, index) in pages"
           :key="index"
-          @click="$emit('navigate', page)"
+          @click="navigateTo(page)"
         >
           <v-list-item-title>{{ page.label }}</v-list-item-title>
         </v-list-item>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import logoImage from "../assets/logo.png";
 
 interface Page {
@@ -57,6 +58,12 @@ withDefaults(defineProps<Props>(), {
   pages: () => [],
   logoSrc: logoImage,
 });
+
+const router = useRouter();
+
+function navigateTo(page: Page) {
+  router.push(page.route);
+}
 </script>
 
 <style scoped>
