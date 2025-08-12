@@ -32,5 +32,9 @@ export const useApiStore = defineStore("api", {
       const response = await apiClient.updateStudent(data);
       return response.data;
     },
+    async deleteStudent(id: string): Promise<Student> {
+      const response = await apiClient.deleteStudent(id);
+      return response.data;
+    },
   },
 });

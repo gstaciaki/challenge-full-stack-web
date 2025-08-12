@@ -54,5 +54,8 @@ export const useApiClient = () => {
       const { id, ...body } = data;
       return apiClient.put(`student/${id}`, body);
     },
+    deleteStudent(id: string) {
+      return apiClient.delete(`student/${id}`);
+    },
   };
 };
