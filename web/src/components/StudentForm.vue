@@ -74,6 +74,16 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="successDialog" max-width="400">
+      <v-card>
+        <v-card-title class="text-h6">Sucesso</v-card-title>
+        <v-card-text> Aluno salvo com sucesso! </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn color="primary" @click="onSuccessClose">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="errorDialog" max-width="400">
       <v-card>
         <v-card-title class="text-h6">Erro ao salvar</v-card-title>
@@ -115,6 +125,7 @@ const errorDialog = ref(false);
 const errorMessage = ref("");
 
 const confirmDialog = ref(false);
+const successDialog = ref(false);
 
 const form = reactive({
   name: "",
@@ -191,12 +202,17 @@ async function onSave() {
       };
       await api.createStudent(createData);
     }
-    onCancel();
+    successDialog.value = true;
   } catch (error: any) {
     errorMessage.value =
       error?.response?.data?.error || "Ocorreu um erro ao salvar o aluno.";
     errorDialog.value = true;
   }
+}
+
+function onSuccessClose() {
+  successDialog.value = false;
+  onCancel();
 }
 </script>
 

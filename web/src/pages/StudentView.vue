@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Student, UpdateStudentData } from "@/composables/useApiClient";
+import type { Student } from "@/composables/useApiClient";
 import { useUtils } from "@/composables/useUtils";
 import { useApiStore } from "@/stores/api";
 import { computed, onMounted, ref } from "vue";
