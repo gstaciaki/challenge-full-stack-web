@@ -22,21 +22,17 @@
           v-for="(page, index) in pages"
           :key="index"
           @click="$emit('navigate', page)"
-          class="cursor-pointer"
         >
           <v-list-item-title>{{ page.label }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-main>
-      <div class="pa-4 content-scroll">
-        <v-row align="center" justify="space-between">
-          <div>
-            <slot name="actions" />
-          </div>
-        </v-row>
-        <slot />
+    <v-main class="d-flex flex-column fill-height">
+      <div class="pa-4 d-flex flex-column flex-grow-1">
+        <div class="d-flex d-flex flex-column">
+          <slot name="actions" />
+        </div>
       </div>
     </v-main>
   </v-app>
@@ -65,10 +61,11 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .content-scroll {
-  height: calc(100vh - 64px);
+  flex: 1;
   overflow-y: auto;
 }
-.cursor-pointer {
-  cursor: pointer;
+
+.fill-height {
+  height: 100%;
 }
 </style>

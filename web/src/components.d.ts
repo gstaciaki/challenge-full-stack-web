@@ -12,5 +12,7 @@ declare module 'vue' {
     PageHeader: typeof import('./components/PageHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchBar: typeof import('./components/SearchBar.vue')['default']
+    StudentListTable: typeof import('./components/StudentListTable.vue')['default']
   }
 }
