@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Docker functions.
+# -----------------------------------------------------------------------------
+
+function dc {
+  docker compose "${@}"
+}
+
+function ps {
+  dc ps "${@}"
+}
+
+function up {
+  dc up "${@}"
+}
+
+function dcr {
+  dc run --rm "${@}"
+}
+
+function cmd {
+  # Run any command you want in the api container
+  dc exec api "${@}"
+}
+
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Package commands
+# -----------------------------------------------------------------------------
+function test:api:prepare {
+  dc exec api yarn test:prepare "${@}"
+}
+
+function test:api {
+  dc exec api yarn test "${@}"
+}
+
+function lint:api {
+  dc exec api yarn lint:fix "${@}"
+}
+
+function lint:web {
+  dc exec web yarn lint "${@}"
+}
+
+function lint {
+  echo "Running API linters"
+  lint:api
+  echo "Running WEB linters"
+  lint:web 
+}
+
+TIMEFORMAT=$'\nTask completed in %3lR'
+time "${@:-help}"
