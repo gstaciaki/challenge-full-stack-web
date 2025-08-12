@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="student in students" :key="student.ra">
+      <tr v-for="student in students" :key="student.id">
         <td>{{ student.ra }}</td>
         <td>{{ student.name }}</td>
         <td>{{ student.cpf }}</td>
@@ -27,11 +27,7 @@
 </template>
 
 <script setup lang="ts">
-interface Student {
-  ra: string;
-  name: string;
-  cpf: string;
-}
+import type { Student } from "@/composables/useApiClient";
 
 defineProps<{
   students: Student[];
