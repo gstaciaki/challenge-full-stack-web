@@ -1,8 +1,11 @@
 import { makeStudentController } from '@src/factories/student.factory';
+import { authMiddleware } from '@src/middlewares/auth';
 import { RequestHandler, Router } from 'express';
 
 const studentRouter = Router();
 const studentController = makeStudentController();
+
+studentRouter.use(authMiddleware);
 
 studentRouter
   .post('/student', studentController.create.bind(studentController) as RequestHandler)

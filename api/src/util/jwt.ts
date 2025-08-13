@@ -20,4 +20,16 @@ export default class JWT {
 
     return token;
   }
+
+  public static verifyToken(token: string): (jwt.JwtPayload | string) | null {
+    if (!secret) {
+      throw new BaseBusinessError();
+    }
+
+    try {
+      return jwt.verify(token, secret);
+    } catch {
+      return null;
+    }
+  }
 }
