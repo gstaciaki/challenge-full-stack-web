@@ -63,6 +63,11 @@ ou
 docker compose exec api yarn migrate:dev
 ```
 
+###
+```bash
+curl --location 'http://localhost:3000/api/user' --header 'Content-Type: application/json' --data-raw '{"name":"admin","email":"email@email.com","password":"Password123!","cpf":"25696597467","admin":true}'
+```
+
 ### Rotas
 - Front: http://localhost:4000
 - API: http://localhost:3000/api
