@@ -23,8 +23,8 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
     return;
   }
 
-  // @ts-ignore handleThisTSErrorLater
-  req.user = decoded;
+  // eslint-disable-next-line
+  (req as any).user = decoded;
 
   next();
 };

@@ -1,7 +1,8 @@
 import { User } from '@src/entities/user.entity';
 import { NotFoundError } from '@src/errors/generic.errors';
 import { IUserRepository } from '@src/repositories/user/user.repository';
-import { AbstractUseCase } from '@src/core/use-case';import { Either, right, wrong } from '@src/util/either';
+import { AbstractUseCase } from '@src/core/use-case';
+import { Either, right, wrong } from '@src/util/either';
 import { ShowUserInput, ShowUserOutput, ShowUserSchema } from '../dtos';
 import { ZodSchema } from 'zod';
 import { DefaultFailOutput } from '@src/types/errors';
