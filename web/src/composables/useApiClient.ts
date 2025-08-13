@@ -1,15 +1,12 @@
-import axios from 'axios'
+import apiClient, { setTokenGetter } from '@/services/apiClient'
 
-const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-  'Cache-Control': 'no-cache',
-}
+import { useAuthStore } from '@/stores/auth'
 
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_ENDPOINT,
-  headers,
+setTokenGetter(() => {
+  const authStore = useAuthStore()
+  return authStore.accessToken
 })
+
 
 export type ListResponse<T> = {
   data: T[]
@@ -42,6 +39,12 @@ export type UpdateStudentData = {
   email: string
 }
 
+export type LoginData = {
+  email: string;
+  password: string;
+}
+
+
 export const useApiClient = () => {
   return {
     listStudents (name?: string) {
@@ -57,5 +60,8 @@ export const useApiClient = () => {
     deleteStudent (id: string) {
       return apiClient.delete(`student/${id}`)
     },
+    login(data: LoginData) {
+      return apiClient.post('login', data)
+    }
   }
 }
