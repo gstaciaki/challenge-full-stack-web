@@ -18,6 +18,13 @@ O front-end da aplicação foi desenvolvido com Vue.js e Vuetify, utilizando a e
 - Pinia (Uso de stores)
 - Axios (Requisições)
 
+## O que você melhoraria se tivesse mais tempo
+- Melhoraria o layout que foi implementado no front, junto com testes unitários. 
+- Acrescentaria paginação no frontend.
+
+## Quais requisitos obrigatórios que não foram entregues
+Todos requisitos foram entregues
+
 ## Como rodar
 
 ### Ferramentas necessárias:

@@ -1,20 +1,21 @@
-// src/stores/auth.ts
 import { defineStore } from 'pinia'
 import { useApiClient, type LoginData } from '@/composables/useApiClient'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    accessToken: null as string | null,
+    accessToken: localStorage.getItem('accessToken') || null,
   }),
   getters: {
     isLoggedIn: (state) => !!state.accessToken,
   },
   actions: {
-    setTokens(accessToken: string) {
-      this.accessToken = accessToken
+    setTokens(token: string) {
+      this.accessToken = token
+      localStorage.setItem('accessToken', token)
     },
     logout() {
       this.accessToken = null
+      localStorage.removeItem('accessToken')
     },
     async login(data: LoginData) {
       const apiClient = useApiClient()
