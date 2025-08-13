@@ -14,8 +14,8 @@
         <td>{{ student.name }}</td>
         <td>{{ student.cpf }}</td>
         <td>
-          <v-btn color="primary" variant="text" @click="onEdit">Editar</v-btn>
-          <v-btn color="error" variant="text" @click="onDelete">Excluir</v-btn>
+          <v-btn color="primary" variant="text" @click="onEdit(student)">Editar</v-btn>
+          <v-btn color="error" variant="text" @click="onDelete(student)">Excluir</v-btn>
         </td>
       </tr>
     </tbody>
