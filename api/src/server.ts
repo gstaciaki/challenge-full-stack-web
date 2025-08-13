@@ -14,7 +14,9 @@ app.get('/health', (req, res) => {
   res.send('API funcionando!');
 });
 
-app.use('/api', routes);
+routes.forEach(({ path, router }) => {
+  app.use(`/api/${path}`, router);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

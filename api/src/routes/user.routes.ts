@@ -8,10 +8,10 @@ const userController = makeUserController();
 userRouter.use(authMiddleware);
 
 userRouter
-  .post('/user', userController.create.bind(userController) as RequestHandler)
-  .get('/user', userController.index.bind(userController) as RequestHandler)
-  .get('/user/:id', userController.show.bind(userController) as RequestHandler)
-  .put('/user/:id', userController.update.bind(userController) as RequestHandler)
-  .delete('/user/:id', userController.delete.bind(userController) as RequestHandler);
+  .post('/', userController.create.bind(userController) as RequestHandler)
+  .get('/', userController.index.bind(userController) as RequestHandler)
+  .get('/:id', userController.show.bind(userController) as RequestHandler)
+  .put('/:id', userController.update.bind(userController) as RequestHandler)
+  .delete('/:id', userController.delete.bind(userController) as RequestHandler);
 
 export { userRouter };
