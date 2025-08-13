@@ -21,6 +21,8 @@ O front-end da aplicação foi desenvolvido com Vue.js e Vuetify, utilizando a e
 ## O que você melhoraria se tivesse mais tempo
 - Melhoraria o layout que foi implementado no front, junto com testes unitários. 
 - Acrescentaria paginação no frontend.
+- Criação de um middleware de admin para gerenciar permissões de usuários
+- Criação de script de seed e scripts de populate para facilitar o teste da aplicação
 
 ## Quais requisitos obrigatórios que não foram entregues
 Todos requisitos foram entregues
