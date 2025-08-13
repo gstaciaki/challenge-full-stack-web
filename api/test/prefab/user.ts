@@ -8,6 +8,7 @@ type UserInput = {
   email?: string;
   password?: string;
   userCpf?: string;
+  admin?: boolean;
 };
 
 export const genPassword = (): string => {
@@ -20,6 +21,7 @@ export const genUser = ({
   email = faker.internet.email(),
   password = genPassword(),
   userCpf = cpf(),
+  admin = false,
 }: UserInput = {}): User =>
   new User({
     id,
@@ -27,4 +29,5 @@ export const genUser = ({
     email,
     password,
     cpf: userCpf,
+    admin,
   });
