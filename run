@@ -24,7 +24,7 @@ function dcr {
   dc run --rm "${@}"
 }
 
-function cmd {
+function cmd:api {
   # Run any command you want in the api container
   dc exec api "${@}"
 }

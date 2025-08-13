@@ -10,6 +10,7 @@ export type OutputUser = {
   name: string;
   email: string;
   cpf: string;
+  admin: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -19,6 +20,7 @@ export const CreateUserSchema = z.object({
   email: z.string().email('Email inválido'),
   password: zPassword(),
   cpf: z.string().refine(CPF.isValid, 'CPF inválido'),
+  admin: z.boolean().optional(),
 });
 
 export type CreateUserInput = z.infer<typeof CreateUserSchema>;

@@ -5,6 +5,7 @@ export interface UserProps extends BaseProps {
   email: string;
   password: string;
   cpf: string;
+  admin?: boolean;
 }
 
 export class User extends BaseEntity {
@@ -12,12 +13,14 @@ export class User extends BaseEntity {
   readonly email: string;
   readonly password: string;
   readonly cpf: string;
+  readonly admin: boolean;
 
-  constructor({ name, email, password, cpf, ...base }: UserProps) {
+  constructor({ name, email, password, cpf, admin = false, ...base }: UserProps) {
     super(base);
     this.name = name;
     this.email = email;
     this.password = password;
     this.cpf = cpf;
+    this.admin = admin;
   }
 }
